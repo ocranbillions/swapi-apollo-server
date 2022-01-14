@@ -7,6 +7,15 @@ const resolvers = {
         return error;
       }
     }
+  },
+  Person: {
+    homeworld: async ({ homeworld }: any, _: undefined, { dataSources }: any) => {
+      try {
+        return await dataSources.api.fetchHomeworld(homeworld);
+      } catch (error) {
+        return error;
+      }
+    }
   }
 };
 

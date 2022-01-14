@@ -18,7 +18,7 @@ const typeDefs = gql`
     height: String
     mass: String
     gender: String
-    homeworld: String
+    homeworld: HomeWorld
   }
 
   type PeopleResponse {

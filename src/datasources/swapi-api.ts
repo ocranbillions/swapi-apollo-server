@@ -12,6 +12,11 @@ class SwapiAPI extends RESTDataSource {
       data: people.results
     };
   }
+
+  async fetchHomeworld(homeworldUrl: string) {
+    const endpoint = homeworldUrl.substring(22)
+    return await this.get(endpoint);
+  }
   
 }
 

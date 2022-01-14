@@ -6,7 +6,7 @@ const resolvers = {
       } catch (error) {
         return error;
       }
-    }
+    },
   },
   Person: {
     homeworld: async ({ homeworld }: any, _: undefined, { dataSources }: any) => {
@@ -15,8 +15,8 @@ const resolvers = {
       } catch (error) {
         return error;
       }
-    }
-  }
+    },
+  },
 };
 
 export default resolvers;

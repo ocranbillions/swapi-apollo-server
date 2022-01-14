@@ -29,15 +29,14 @@ class SwapiAPI extends RESTDataSource {
   async fetchAllPeople(searchTerm: string): Promise<{data: Person[]}> {
     const people = await this.get(`people/?search=${searchTerm}`);
     return {
-      data: people.results
+      data: people.results,
     };
   }
 
   async fetchHomeworld(homeworldUrl: string): Promise<Homeworld> {
-    const endpoint = homeworldUrl.substring(22)
-    return await this.get(endpoint);
+    const endpoint = homeworldUrl.substring(22);
+    return this.get(endpoint);
   }
-  
 }
 
 export default SwapiAPI;

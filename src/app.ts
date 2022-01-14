@@ -7,11 +7,9 @@ import SwapiAPI from './datasources/swapi-api';
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  dataSources: () => {
-    return {
-      api: new SwapiAPI(),
-    };
-  },
+  dataSources: () => ({
+    api: new SwapiAPI(),
+  }),
 });
 
 const PORT = process.env.PORT || 4000;

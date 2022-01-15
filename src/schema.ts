@@ -26,7 +26,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    getPeople(searchTerm: String): PeopleResponse
+    getPeople: PeopleResponse
+    getPerson(name: String): Person
   }
 `;
 

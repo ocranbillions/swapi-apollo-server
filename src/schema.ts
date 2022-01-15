@@ -21,12 +21,19 @@ const typeDefs = gql`
     homeworld: HomeWorld
   }
 
+  type Page {
+    totalPeople: Int
+    nextPage: String
+    previousPage: String
+  }
+
   type PeopleResponse {
     data: [Person]
+    page: Page
   }
 
   type Query {
-    getPeople: PeopleResponse
+    getPeople(page: String): PeopleResponse
     getPerson(name: String): Person
   }
 `;

@@ -20,16 +20,37 @@ interface Person {
   homeworld: Homeworld
 }
 
+interface Page {
+  totalPeople: number
+  nextPage: string
+  previousPage: string
+}
+
+interface PeopleResponse {
+  data: Person[]
+  page: Page
+}
+
 class SwapiAPI extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = 'https://swapi.dev/api/';
   }
 
-  async fetchAllPeople(): Promise<{data: Person[]}> {
-    const people = await this.get('people');
+  async fetchAllPeople(page: string): Promise<PeopleResponse> {
+    const path = page ? `people/?page=${page}` : 'people/';
+    const data = await this.get(path);
+    const {
+      results, count, previous, next,
+    } = data;
+
     return {
-      data: people.results,
+      data: results,
+      page: {
+        totalPeople: count,
+        nextPage: next,
+        previousPage: previous,
+      },
     };
   }
 

@@ -1,8 +1,8 @@
 const resolvers = {
   Query: {
-    getPeople: async (_: undefined, __: undefined, { dataSources }: any) => {
+    getPeople: async (_: undefined, { page }: any, { dataSources }: any) => {
       try {
-        return await dataSources.api.fetchAllPeople();
+        return await dataSources.api.fetchAllPeople(page);
       } catch (error) {
         return error;
       }

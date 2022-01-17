@@ -20,3 +20,5 @@ server.listen({ port: PORT }).then(() => {
     📭  Query at https://studio.apollographql.com/dev
   `);
 });
+
+export default server;

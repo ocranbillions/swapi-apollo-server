@@ -1,9 +1,8 @@
 /* eslint-disable no-undef */
 import app from '../app';
-import SwapiAPI from '../datasources/swapi-api';
+import DataSource from '../datasources/db';
 
 import peopleData from './data/people.json';
-import homeWorldData from './data/homeworld.json';
 
 const fetchAllPeopleMockResponse = jest.fn(async () => Promise.resolve({
   data: peopleData.results,
@@ -14,7 +13,6 @@ const fetchAllPeopleMockResponse = jest.fn(async () => Promise.resolve({
   },
 }));
 const fetchPersonMockResponse = jest.fn(async () => Promise.resolve(peopleData.results[0]));
-const fetchHomeworldMockResponse = jest.fn(async () => Promise.resolve(homeWorldData));
 
 const GET_PEOPLE_QUERY = `
   query GetPeopleQuery($page: String) {
@@ -69,9 +67,8 @@ const GET_PERSON_QUERY = `
 
 describe('Test People Query', () => {
   beforeAll(async () => {
-    jest.spyOn(SwapiAPI.prototype, 'fetchAllPeople').mockImplementation(fetchAllPeopleMockResponse);
-    jest.spyOn(SwapiAPI.prototype, 'fetchPerson').mockImplementation(fetchPersonMockResponse);
-    jest.spyOn(SwapiAPI.prototype, 'fetchHomeworld').mockImplementation(fetchHomeworldMockResponse);
+    jest.spyOn(DataSource.prototype, 'fetchAllPeople').mockImplementation(fetchAllPeopleMockResponse);
+    jest.spyOn(DataSource.prototype, 'fetchPerson').mockImplementation(fetchPersonMockResponse);
   });
   afterAll(async () => {
     jest.restoreAllMocks();

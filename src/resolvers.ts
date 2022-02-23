@@ -23,16 +23,6 @@ const resolvers = {
       }
     },
   },
-  Person: {
-    // eslint-disable-next-line max-len
-    homeworld: async ({ homeworld }: { homeworld: string }, _: undefined, { dataSources }: DataSourcesI) => {
-      try {
-        return await dataSources.api.fetchHomeworld(homeworld);
-      } catch (error) {
-        return error;
-      }
-    },
-  },
 };
 
 export default resolvers;

@@ -1,5 +1,7 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
+import models from './db/models';
+
 interface Homeworld {
   name: string
   rotation_period: string
@@ -22,8 +24,8 @@ interface Person {
 
 interface Page {
   totalPeople: number
-  nextPage: string
-  previousPage: string
+  nextPage: string | null
+  previousPage: string | null
 }
 
 interface PeopleResponse {
@@ -38,31 +40,58 @@ class SwapiAPI extends RESTDataSource {
   }
 
   async fetchAllPeople(page: string): Promise<PeopleResponse> {
-    const path = page ? `people/?page=${page}` : 'people/';
-    const data = await this.get(path);
-    const {
-      results, count, previous, next,
-    } = data;
+    let pageRequested: any = parseInt(page || '1', 10); // TODO
+    pageRequested = pageRequested > 0 ? pageRequested : 1;
+    const LIMIT = 3;
+    const offset = (pageRequested - 1) * LIMIT;
+
+    const result = await models.Person.findAndCountAll({
+      offset,
+      limit: LIMIT,
+      include: [
+        {
+          model: models.Homeworld,
+          as: 'homeworld',
+        },
+      ],
+    });
+
+    const people = result.rows.map((item: { dataValues: any; }) => ({
+      ...item.dataValues,
+      homeworld: {
+        ...item.dataValues.homeworld.dataValues,
+      },
+    }));
 
     return {
-      data: results,
+      data: people,
       page: {
-        totalPeople: count,
-        nextPage: next,
-        previousPage: previous,
+        totalPeople: result.count,
+        nextPage: `${pageRequested + 1}`,
+        previousPage: pageRequested === 1 ? null : `${pageRequested - 1}`,
       },
     };
   }
 
   async fetchPerson(name: string): Promise<Person> {
-    const data = await this.get(`people/?search=${name}`);
-    const person = data.results[0];
-    return person;
-  }
+    const result = await models.Person.findOne({
+      where: { name },
+      include: [
+        {
+          model: models.Homeworld,
+          as: 'homeworld',
+        },
+      ],
+    });
 
-  async fetchHomeworld(homeworldUrl: string): Promise<Homeworld> {
-    const endpoint = homeworldUrl.substring(22);
-    return this.get(endpoint);
+    const person = {
+      ...result.dataValues,
+      homeworld: {
+        ...result.dataValues.homeworld.dataValues,
+      },
+    };
+
+    return person;
   }
 }
 

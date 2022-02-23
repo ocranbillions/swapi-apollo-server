@@ -15,10 +15,18 @@ const typeDefs = gql`
 
   type Person {
     name: String
-    height: String
+    height: Int
     mass: String
     gender: String
     homeworld: HomeWorld
+  }
+
+  input CreatePersonInput {
+    name: String
+    height: Int
+    mass: Int
+    gender: String
+    homeworldId: Int
   }
 
   type Page {
@@ -34,7 +42,12 @@ const typeDefs = gql`
 
   type Query {
     getPeople(page: String): PeopleResponse
-    getPerson(name: String): Person
+    getPerson(name: String!): Person
+  }
+  type Mutation {
+    createPerson(personData: CreatePersonInput!): Person
+    updatePerson(name: String, personData: CreatePersonInput): Person
+    deletePerson(name: String): Boolean
   }
 `;
 

@@ -16,8 +16,8 @@ interface Homeworld {
 
 interface Person {
   name: string
-  height: string
-  mass: string
+  height: number
+  mass: number
   gender: string
   homeworld: Homeworld
 }
@@ -31,6 +31,13 @@ interface Page {
 interface PeopleResponse {
   data: Person[]
   page: Page
+}
+interface CreatePersonInput {
+  name: string
+  height: number
+  mass: number
+  gender: string
+  homeworldId: number
 }
 
 class DataSource extends RESTDataSource {
@@ -84,14 +91,68 @@ class DataSource extends RESTDataSource {
       ],
     });
 
-    const person = {
-      ...result.dataValues,
+    if (!result) throw new Error('Person not found');
+
+    const { dataValues: person } = result;
+    const personObject = {
+      ...person,
       homeworld: {
-        ...result.dataValues.homeworld.dataValues,
+        ...person.homeworld.dataValues,
       },
     };
 
-    return person;
+    return personObject;
+  }
+
+  async createPerson(personData: CreatePersonInput): Promise<Person> {
+    const { homeworldId } = personData;
+
+    const homeworldResult = await models.Homeworld.findByPk(homeworldId);
+
+    if (!homeworldResult) throw new Error('Homeworld not found');
+
+    // Todo check if person with same name exist
+
+    const personResult = await models.Person.create(personData);
+
+    const { dataValues: homeworld } = homeworldResult;
+    const { dataValues: person } = personResult;
+
+    const personObject = {
+      ...person,
+      homeworld: {
+        ...homeworld,
+      },
+    };
+
+    return personObject;
+  }
+
+  async updatePerson(name: String, personData: CreatePersonInput): Promise<Person> {
+    const { homeworldId } = personData;
+
+    const homeworldResult = await models.Homeworld.findByPk(homeworldId);
+
+    if (!homeworldResult) throw new Error('Homeworld not found');
+
+    // Todo check if person with same name exist
+
+    await models.Person.update(personData, { where: { name } });
+
+    const { dataValues: homeworld } = homeworldResult;
+
+    const personObject = {
+      ...personData,
+      homeworld: {
+        ...homeworld,
+      },
+    };
+
+    return personObject;
+  }
+
+  async deletePerson(name: string): Promise<Boolean> {
+    return models.Person.destroy({ where: { name } });
   }
 }
 

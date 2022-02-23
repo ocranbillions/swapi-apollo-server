@@ -1,6 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
-import models from './db/models';
+import models from './models';
 
 interface Homeworld {
   name: string
@@ -33,7 +33,7 @@ interface PeopleResponse {
   page: Page
 }
 
-class SwapiAPI extends RESTDataSource {
+class DataSource extends RESTDataSource {
   constructor() {
     super();
     this.baseURL = 'https://swapi.dev/api/';
@@ -95,4 +95,4 @@ class SwapiAPI extends RESTDataSource {
   }
 }
 
-export default SwapiAPI;
+export default DataSource;

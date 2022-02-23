@@ -2,13 +2,13 @@ import { ApolloServer } from 'apollo-server';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 
-import SwapiAPI from './datasources/swapi-api';
+import DataSource from './datasources/db';
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
-    api: new SwapiAPI(),
+    db: new DataSource(),
   }),
 });
 

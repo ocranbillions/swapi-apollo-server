@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('People', {
+    await queryInterface.createTable('Homeworlds', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,24 +11,29 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
       },
-      height: {
+      rotation_period: {
         type: Sequelize.INTEGER,
       },
-      mass: {
+      orbital_period: {
         type: Sequelize.INTEGER,
       },
-      gender: {
+      diameter: {
+        type: Sequelize.INTEGER,
+      },
+      climate: {
         type: Sequelize.STRING,
       },
-      homeworldId: {
-        allowNull: false,
+      gravity: {
+        type: Sequelize.STRING,
+      },
+      terrain: {
+        type: Sequelize.STRING,
+      },
+      surface_water: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        references: {
-          model: 'Homeworlds',
-          key: 'id',
-        },
+      },
+      population: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -42,7 +47,7 @@ module.exports = {
       },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('People');
+  async down(queryInterface) {
+    await queryInterface.dropTable('Homeworlds');
   },
 };

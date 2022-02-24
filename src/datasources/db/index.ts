@@ -1,6 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest';
 
-import models from './models';
+const models = require('./models');
 
 interface Homeworld {
   id: string

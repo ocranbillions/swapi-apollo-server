@@ -12,6 +12,7 @@ const resolvers = {
         const result = await models.Person.findAndCountAll({
           offset,
           limit: LIMIT,
+          order: [['id', 'ASC']],
           include: [
             {
               model: models.Homeworld,

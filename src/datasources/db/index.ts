@@ -48,10 +48,10 @@ class DataSource extends RESTDataSource {
   }
 
   async fetchAllPeople(page: string): Promise<PeopleResponse> {
-    let pageRequested: any = parseInt(page || '1', 10); // TODO
-    pageRequested = pageRequested > 0 ? pageRequested : 1;
+    const PAGE_1 = "1"
+    const currentPage = page ? parseInt(page, 10) : parseInt(PAGE_1, 10)
     const LIMIT = 10;
-    const offset = (pageRequested - 1) * LIMIT;
+    const offset = (currentPage - 1) * LIMIT;
 
     const result = await models.Person.findAndCountAll({
       offset,
@@ -71,12 +71,17 @@ class DataSource extends RESTDataSource {
       },
     }));
 
+    // Pagination
+    const totalNumOfPages = Math.ceil(parseInt(result.count) / LIMIT);
+    const nextPage = ((currentPage === totalNumOfPages)) ? null : `${currentPage + 1}`
+    const previousPage = currentPage === 1 ? null : `${currentPage - 1}`
+
     return {
       data: people,
       page: {
         totalPeople: result.count,
-        nextPage: `${pageRequested + 1}`,
-        previousPage: pageRequested === 1 ? null : `${pageRequested - 1}`,
+        nextPage,
+        previousPage,
       },
     };
   }

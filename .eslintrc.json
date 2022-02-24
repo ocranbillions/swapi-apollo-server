@@ -19,5 +19,5 @@
       "no-console": 0,
       "import/no-unresolved": 0
     },
-    "ignorePatterns": ["src/datasources/db/*"]
+    "ignorePatterns": ["src/database/*"]
 }

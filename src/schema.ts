@@ -47,11 +47,12 @@ const typeDefs = gql`
     getAllHomeworlds: [HomeWorld]
     getHomeworld(id: Int): HomeWorld
   }
+
   type Mutation {
-    createPerson(personData: CreatePersonInput!): Person
-    updatePerson(name: String, personData: CreatePersonInput!): Person
-    deletePerson(name: String): Boolean
-  }
+  createPerson(personData: CreatePersonInput!): Person
+  updatePerson(name: String, personData: CreatePersonInput!): Person
+  deletePerson(name: String): Boolean
+}
 `;
 
 export default typeDefs;

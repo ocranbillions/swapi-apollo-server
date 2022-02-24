@@ -2,14 +2,12 @@ import { ApolloServer } from 'apollo-server';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 
-import DataSource from './datasources/db';
+const models = require('./database/models');
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  dataSources: () => ({
-    db: new DataSource(),
-  }),
+  context: { models },
 });
 
 const PORT = process.env.PORT || 4000;

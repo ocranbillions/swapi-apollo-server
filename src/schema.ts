@@ -22,11 +22,11 @@ const typeDefs = gql`
   }
 
   input CreatePersonInput {
-    name: String
-    height: Int
-    mass: Int
-    gender: String
-    homeworldId: Int
+    name: String!
+    height: Int!
+    mass: Int!
+    gender: String!
+    homeworldId: Int!
   }
 
   type Page {
@@ -42,11 +42,11 @@ const typeDefs = gql`
 
   type Query {
     getPeople(page: String): PeopleResponse
-    getPerson(name: String!): Person
+    getPerson(name: String): Person
   }
   type Mutation {
     createPerson(personData: CreatePersonInput!): Person
-    updatePerson(name: String, personData: CreatePersonInput): Person
+    updatePerson(name: String, personData: CreatePersonInput!): Person
     deletePerson(name: String): Boolean
   }
 `;

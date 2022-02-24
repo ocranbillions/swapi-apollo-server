@@ -11,7 +11,9 @@
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all",
-    "seed:undo": "sequelize db:seed:undo:all"
+    "seed:undo": "sequelize db:seed:undo:all",
+    "build": "tsc",
+    "heroku-postbuild": "npm i -g sequelize-cli && npm run migrate && npm run seed"
   },
   "repository": {
     "type": "git",

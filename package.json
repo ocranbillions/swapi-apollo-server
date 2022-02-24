@@ -13,7 +13,8 @@
     "seed": "sequelize db:seed:all",
     "seed:undo": "sequelize db:seed:undo:all",
     "build": "tsc",
-    "heroku-postbuild": "npm i -g sequelize-cli && npm run migrate && npm run seed"
+    "install-failing-deps": "npm i -g sequelize-cli && npm i -g ts-node",
+    "heroku-postbuild": "npm run install-failing-deps && npm run migrate && npm run seed"
   },
   "repository": {
     "type": "git",

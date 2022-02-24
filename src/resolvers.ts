@@ -22,6 +22,20 @@ const resolvers = {
         return error;
       }
     },
+    getAllHomeworlds: async (_: undefined, __: undefined, { dataSources }: DataSourcesI) => {
+      try {
+        return dataSources.db.getAllHomeworlds();
+      } catch (error) {
+        return error;
+      }
+    },
+    getHomeworld: async (_: undefined, { id }: { id: number }, { dataSources }: DataSourcesI) => {
+      try {
+        return dataSources.db.fetchHomeworldById(id);
+      } catch (error) {
+        return error;
+      }
+    },
   },
   Mutation: {
     createPerson: async (_: undefined, { personData }: any, { dataSources }: DataSourcesI) => {

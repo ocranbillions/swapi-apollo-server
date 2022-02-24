@@ -2,6 +2,7 @@ import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   type HomeWorld {
+    id: String
     name: String
     rotation_period: String
     orbital_period: String
@@ -43,6 +44,8 @@ const typeDefs = gql`
   type Query {
     getPeople(page: String): PeopleResponse
     getPerson(name: String): Person
+    getAllHomeworlds: [HomeWorld]
+    getHomeworld(id: Int): HomeWorld
   }
   type Mutation {
     createPerson(personData: CreatePersonInput!): Person

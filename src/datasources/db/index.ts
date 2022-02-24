@@ -3,6 +3,7 @@ import { RESTDataSource } from 'apollo-datasource-rest';
 import models from './models';
 
 interface Homeworld {
+  id: string
   name: string
   rotation_period: string
   orbital_period: string
@@ -49,7 +50,7 @@ class DataSource extends RESTDataSource {
   async fetchAllPeople(page: string): Promise<PeopleResponse> {
     let pageRequested: any = parseInt(page || '1', 10); // TODO
     pageRequested = pageRequested > 0 ? pageRequested : 1;
-    const LIMIT = 3;
+    const LIMIT = 10;
     const offset = (pageRequested - 1) * LIMIT;
 
     const result = await models.Person.findAndCountAll({
@@ -153,6 +154,23 @@ class DataSource extends RESTDataSource {
 
   async deletePerson(name: string): Promise<Boolean> {
     return models.Person.destroy({ where: { name } });
+  }
+
+  async getAllHomeworlds(): Promise<[Person]> {
+    const result = await models.Homeworld.findAll();
+    const homeworlds = result.map((item: { dataValues: any; }) => item.dataValues);
+
+    return homeworlds;
+  }
+
+  async fetchHomeworldById(id: number): Promise<Person> {
+    const result = await models.Homeworld.findOne({ where: { id } });
+
+    if (!result) throw new Error('Homeworld not found');
+
+    const { dataValues: homeworld } = result;
+
+    return homeworld;
   }
 }
 

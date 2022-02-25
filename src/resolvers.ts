@@ -6,7 +6,7 @@ const resolvers = {
       try {
         const PAGE_1 = '1';
         const currentPage = page ? parseInt(page, 10) : parseInt(PAGE_1, 10);
-        const LIMIT = 10;
+        const LIMIT = 6;
         const offset = (currentPage - 1) * LIMIT;
 
         const result = await models.Person.findAndCountAll({
@@ -21,12 +21,7 @@ const resolvers = {
           ],
         });
 
-        const people = result.rows.map((item: { dataValues: any; }) => ({
-          ...item.dataValues,
-          homeworld: {
-            ...item.dataValues.homeworld.dataValues,
-          },
-        }));
+        const people = result.rows.map((item: any) => item.get({ plain: true }));
 
         // Pagination
         const totalNumOfPages = Math.ceil(parseInt(result.count, 10) / LIMIT);
@@ -59,14 +54,8 @@ const resolvers = {
 
         if (!result) throw new Error('Person not found');
 
-        const { dataValues: person } = result;
-
-        return {
-          ...person,
-          homeworld: {
-            ...person.homeworld.dataValues,
-          },
-        };
+        const person = result.get({ plain: true });
+        return person;
       } catch (error) {
         return error;
       }
@@ -74,7 +63,7 @@ const resolvers = {
     getAllHomeworlds: async (_: undefined, __: undefined, { models }: any) => {
       try {
         const result = await models.Homeworld.findAll();
-        const homeworlds = result.map((item: { dataValues: any; }) => item.dataValues);
+        const homeworlds = result.map((item: any) => item.get({ plain: true }));
 
         return homeworlds;
       } catch (error) {
@@ -87,8 +76,7 @@ const resolvers = {
 
         if (!result) throw new Error('Homeworld not found');
 
-        const { dataValues: homeworld } = result;
-
+        const homeworld = result.get({ plain: true });
         return homeworld;
       } catch (error) {
         return error;
@@ -109,8 +97,8 @@ const resolvers = {
 
         const personResult = await models.Person.create(personData);
 
-        const { dataValues: homeworld } = homeworldResult;
-        const { dataValues: person } = personResult;
+        const homeworld = homeworldResult.get({ plain: true });
+        const person = personResult.get({ plain: true });
 
         return {
           ...person,
@@ -135,7 +123,7 @@ const resolvers = {
 
         await models.Person.update(personData, { where: { name } });
 
-        const { dataValues: homeworld } = homeworldResult;
+        const homeworld = homeworldResult.get({ plain: true });
 
         return {
           ...personData,

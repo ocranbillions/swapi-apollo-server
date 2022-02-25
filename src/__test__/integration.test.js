@@ -54,7 +54,7 @@ const GET_PERSON_QUERY = `
 
 describe('Test People Query', () => {
   it("should return an object with 'data' containing all people and 'page' containing page info", async () => {
-    const NUMBER_OF_ITEMS_PER_PAGE = 10;
+    const NUMBER_OF_ITEMS_PER_PAGE = 6;
     const result = await app.executeOperation({
       query: GET_PEOPLE_QUERY,
       variables: { page: '1' },

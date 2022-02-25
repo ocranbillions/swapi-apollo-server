@@ -104,7 +104,8 @@ const resolvers = {
 
         if (!homeworldResult) throw new Error('Homeworld not found');
 
-        // Todo check if person with same name exist
+        const result = await models.Person.findOne({ where: { name: personData.name } });
+        if (result) throw new Error(`${personData.name} already exist`);
 
         const personResult = await models.Person.create(personData);
 
@@ -129,7 +130,8 @@ const resolvers = {
 
         if (!homeworldResult) throw new Error('Homeworld not found');
 
-        // Todo check if person with same name exist
+        const result = await models.Person.findOne({ where: { name: personData.name } });
+        if (result && result.dataValues.name !== name) throw new Error(`${personData.name} already exist`);
 
         await models.Person.update(personData, { where: { name } });
 

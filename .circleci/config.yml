@@ -10,6 +10,9 @@ jobs:
           name: "Install dependencies"
           command: "npm install"
       - run:
+          name: "Install sequelize-cli, ts-node"
+          command: "sudo npm i -g sequelize-cli && sudo npm i -g ts-node"
+      - run:
           name: "Test"
           command: "npm run test"
 

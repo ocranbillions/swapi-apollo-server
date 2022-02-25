@@ -1,5 +1,18 @@
 /* eslint-disable no-undef */
 import app from '../app';
+import DataSource from '../datasources/db';
+
+import peopleData from './data/people.json';
+
+const fetchAllPeopleMockResponse = jest.fn(async () => Promise.resolve({
+  data: peopleData.results,
+  page: {
+    totalPeople: peopleData.count,
+    nextPage: peopleData.next,
+    previousPage: peopleData.previous,
+  },
+}));
+const fetchPersonMockResponse = jest.fn(async () => Promise.resolve(peopleData.results[0]));
 
 const GET_PEOPLE_QUERY = `
   query GetPeopleQuery($page: String) {
@@ -53,6 +66,14 @@ const GET_PERSON_QUERY = `
 `;
 
 describe('Test People Query', () => {
+  beforeAll(async () => {
+    jest.spyOn(DataSource.prototype, 'fetchAllPeople').mockImplementation(fetchAllPeopleMockResponse);
+    jest.spyOn(DataSource.prototype, 'fetchPerson').mockImplementation(fetchPersonMockResponse);
+  });
+  afterAll(async () => {
+    jest.restoreAllMocks();
+  });
+
   it("should return an object with 'data' containing all people and 'page' containing page info", async () => {
     const NUMBER_OF_ITEMS_PER_PAGE = 10;
     const result = await app.executeOperation({

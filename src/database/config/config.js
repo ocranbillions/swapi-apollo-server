@@ -11,10 +11,10 @@ module.exports = {
   },
 
   test: {
-    database: 'swapitest',
-    username: 'mac',
-    password: null,
-    host: '127.0.0.1',
+    database: process.env.TESTDB_NAME,
+    username: process.env.TESTDB_USER,
+    password: process.env.TESTDB_PASSWORD,
+    host: process.env.TESTDB_HOST,
     dialect: 'postgres',
     logging: false,
   },

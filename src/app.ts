@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server';
+import { GraphQLError } from 'graphql';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 
@@ -8,6 +9,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: { models },
+  formatError: (error: GraphQLError) => new GraphQLError(error.message),
 });
 
 const PORT = process.env.PORT || 4000;

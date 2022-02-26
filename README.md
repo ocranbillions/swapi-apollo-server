@@ -1,5 +1,7 @@
 # swapi-apollo-server
 
+Live @ https://swapi-apollo-client.herokuapp.com/
+
 [![CircleCI](https://circleci.com/gh/ocranbillions/swapi-apollo-server/tree/main.svg?style=svg)](https://circleci.com/gh/ocranbillions/swapi-apollo-server/tree/main)
 
 This is the server repository for [Swapi Apollo Client](https://github.com/ocranbillions/swapi-apollo-client).
@@ -65,7 +67,7 @@ These are the environment variables required to successfully run the application
 
 
 ## API 
-`https://swapi-apollo-server.herokuapp.com/graphql`
+Live @ https://swapi-apollo-server.herokuapp.com/graphql
 
 
 | Name                   | Type     | Description                                                  |

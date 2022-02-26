@@ -1,6 +1,6 @@
 # swapi-apollo-server
 
-Live @ https://swapi-apollo-client.herokuapp.com/
+Live @ https://swapi-apollo-server.herokuapp.com/graphql
 
 [![CircleCI](https://circleci.com/gh/ocranbillions/swapi-apollo-server/tree/main.svg?style=svg)](https://circleci.com/gh/ocranbillions/swapi-apollo-server/tree/main)
 
